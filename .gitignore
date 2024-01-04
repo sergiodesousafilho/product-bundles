@@ -8,8 +8,8 @@
 
 # excluir tudo das pastas bin e obj
 
-/bin/
-/obj/
+/ProductBundles/bin/
+/ProductBundles/obj/
 
 
 
