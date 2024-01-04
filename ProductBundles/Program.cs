@@ -1,7 +1,13 @@
+using ProductBundles.Infrastructure;
+using ProductBundles.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+builder.Services.AddMvc();
+
+ConfigDependencyServices(builder.Services);
 
 var app = builder.Build();
 
@@ -13,6 +19,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+app.MapControllerRoute(
+    name: "default",    
+    pattern: "{controller=home}/{action=index}");
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -20,6 +32,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllers();
+
 
 app.Run();
+
+
+void ConfigDependencyServices(IServiceCollection services)
+{
+    services.AddTransient<HomeService, HomeService>();
+    services.AddTransient<ProductBundlesDbContext, ProductBundlesDbContext>();
+}
