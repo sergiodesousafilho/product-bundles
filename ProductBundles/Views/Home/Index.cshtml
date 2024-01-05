@@ -1,9 +1,57 @@
-﻿
+﻿@using ProductBundles.ViewModels.Home
 @{
-    ViewData["Title"] = "Index";
+    Layout = "_Layout";    
+    List<BundleViewModel> bundles = ViewBag.Bundles;
 }
 
-<h1>Index</h1>
+@section head
+{    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+}
 
-index view vai aqui, deve listar os bundles
 
+<h1>Bundles</h1>
+
+<div id="jstree">
+    @foreach (BundleViewModel bundle in bundles)
+    {
+        <ul>
+            <li>
+                <span>@bundle.Name</span>
+                                
+                @if(bundle.BundleProducts != null && bundle.BundleProducts.Count > 0)
+                {
+                    <ul>
+                        @foreach(BundleProductViewModel bp in bundle.BundleProducts)
+                        {
+                            <li>
+                                @bp.ProductName
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        </ul>        
+    }
+</div>
+
+
+
+<script>
+    $(function () {
+        // 6 create an instance when the DOM is ready
+        $('#jstree').jstree();
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+        });
+        // 8 interact with the tree - either way is OK
+        // $('button').on('click', function () {
+        //     $('#jstree').jstree(true).select_node('child_node_1');
+        //     $('#jstree').jstree('select_node', 'child_node_1');
+        //     $.jstree.reference('#jstree').select_node('child_node_1');
+        // });
+    });
+</script>

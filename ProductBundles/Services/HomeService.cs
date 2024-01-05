@@ -1,5 +1,5 @@
-﻿using ProductBundles.Domain;
-using ProductBundles.Infrastructure;
+﻿using ProductBundles.Infrastructure;
+using ProductBundles.ViewModels.Home;
 
 namespace ProductBundles.Services
 {
@@ -12,10 +12,13 @@ namespace ProductBundles.Services
             _dbContext = dbContext;
         }
 
-        public List<Bundle> GetAllBundles()
+        public List<BundleViewModel> GetAllBundles()
         {            
             var bundles = _dbContext.Bundle.ToList();
-            return bundles;
+
+            var bundlesModel = BundleViewModel.FromEntityList(bundles);
+
+            return bundlesModel;
         }
     }
 }

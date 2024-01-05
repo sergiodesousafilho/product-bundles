@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<BundleProduct> BundleProducts { get; set; }
+        public virtual List<BundleProduct> BundleProducts { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace ProductBundles.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {            
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,6 +39,11 @@ namespace ProductBundles.Infrastructure
                 .HasOne(bp => bp.Product)
                 .WithMany()
                 .HasForeignKey(bp => bp.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<BundleProduct>()
+                .HasMany(bp => bp.ChildBundleProducts)
+                .WithOne()
+                .HasForeignKey(bp => bp.BundleProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // [dbo].[Product]
