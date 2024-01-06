@@ -1,9 +1,9 @@
-﻿@using Microsoft.AspNetCore.Mvc.Routing;
+﻿
 @using ProductBundles.ViewModels.Home
+
 @{
     Layout = "_Layout";    
-    List<BundleViewModel> bundles = ViewBag.Bundles;
-    
+    List<BundleViewModel> bundles = ViewBag.Bundles;    
 }
 
 @section head
@@ -30,7 +30,13 @@
     
 
 <div id="jstree">
+
     @foreach (BundleViewModel bundle in bundles)
+    {
+        RenderBundle(bundle);
+    }
+
+    @*@foreach (BundleViewModel bundle in bundles)
     {
         <ul>
             <li>
@@ -46,7 +52,7 @@
                             </li>
                         }
 
-                        @foreach (ChildBundleViewModel b in bundle.ChildBundles)
+                        @foreach (BundleViewModel b in bundle.ChildBundles)
                         {
                             <li>
                                 @b.Name (@b.Amount)
@@ -57,19 +63,60 @@
                 }
             </li>
         </ul>        
-    }
+    }*@
 </div>
 
 
+@functions {
+    public void RenderBundle(BundleViewModel bundle)
+    {
+        <ul>
+            <li>
+                <span>@bundle.Name</span>
+
+                @if (bundle.BundleProducts != null && bundle.BundleProducts.Count > 0)
+                {
+                    <ul>
+                        @foreach (BundleProductViewModel bp in bundle.BundleProducts)
+                        {
+                            <li>
+                                @bp.ProductName (@bp.Amount)
+                            </li>
+                        }
+                    </ul>
+                }
+
+                @if (bundle.ChildBundles != null && bundle.ChildBundles.Count > 0)
+                {
+                    <ul>                                                                    
+                        @foreach (BundleViewModel b in bundle.ChildBundles)
+                        {
+                            <li>
+                                <span>@b.Name (@b.Amount)</span>
+
+                                @{
+                                        RenderBundle(b);
+                                }                                
+
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        </ul>
+    }
+}
 
 <script>
     $(function () {
-        // 6 create an instance when the DOM is ready
+        
         $('#jstree').jstree();
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function (e, data) {
-            console.log(data.selected);
-        });
+        
+        
+        //$('#jstree').on("changed.jstree", function (e, data) {
+        //    console.log(data.selected);
+        //});
+        
         // 8 interact with the tree - either way is OK
         // $('button').on('click', function () {
         //     $('#jstree').jstree(true).select_node('child_node_1');

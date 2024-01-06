@@ -8,8 +8,10 @@ namespace ProductBundles.ViewModels.Home
     {
         public int Id { get; set; } = 0;
         public string Name { get; set; } = "";
-        public List<BundleProductViewModel> BundleProducts { get; set; } = new List<BundleProductViewModel>();
-        public List<ChildBundleViewModel> ChildBundles { get; set; } = new List<ChildBundleViewModel>();
+        public string Description { get; set; } = "";
+        public int Amount { get; set; } = 0;
+        public List<BundleProductViewModel> BundleProducts { get; set; } = new List<BundleProductViewModel>();        
+        public List<BundleViewModel> ChildBundles { get; set; } = new List<BundleViewModel>();
 
 
         public static List<BundleViewModel> FromEntityList(List<Domain.Bundle> bundles)
@@ -34,21 +36,20 @@ namespace ProductBundles.ViewModels.Home
                         ProductId = bundleProduct.ProductId,
                         Amount = bundleProduct.Amount,
                         ProductName = bundleProduct.Product.Name                        
-                    };
-
-                    //SetChildrenRecursively(bundleProductViewModel, bundleProduct);
+                    };                                        
                     bundleViewModel.BundleProducts.Add(bundleProductViewModel);
                 }
 
                 foreach (BundleRelation childBundleRelation in bundle.ChildBundles)
                 {
-                    ChildBundleViewModel childBundleViewModel = new ChildBundleViewModel()
+                    BundleViewModel childBundleViewModel = new BundleViewModel()
                     {
                         Id = childBundleRelation.ChildBundleId,
                         Name = childBundleRelation.ChildBundle.Name,
                         Description = childBundleRelation.ChildBundle.Description,
                         Amount = childBundleRelation.Amount
                     };
+                    SetChildrenRecursively(childBundleRelation.ChildBundle, childBundleViewModel);
                     bundleViewModel.ChildBundles.Add(childBundleViewModel);
                 }
 
@@ -58,24 +59,35 @@ namespace ProductBundles.ViewModels.Home
             return retVal;
         }
 
-        //private static void SetChildrenRecursively(BundleProductViewModel bundleProductViewModel, BundleProduct bundleProduct)
-        //{
-        //    foreach(BundleProduct childBundleProduct in bundleProduct.ChildBundleProducts)
-        //    {
-        //        BundleProductViewModel childBundleProductViewModel = new BundleProductViewModel()
-        //        {
-        //            Id = childBundleProduct.Id,
-        //            BundleId = childBundleProduct.BundleId,                    
-        //            ProductId = childBundleProduct.ProductId,
-        //            Amount = childBundleProduct.Amount,
-        //            ProductName = childBundleProduct.ProductId.HasValue ? childBundleProduct.Product.Name : null,
-        //            Children = new List<BundleProductViewModel>()
-        //        };
+        private static void SetChildrenRecursively(Domain.Bundle bundle, BundleViewModel bundleViewModel)
+        {
+            foreach (BundleProduct bundleProduct in bundle.BundleProducts)
+            {
+                BundleProductViewModel bundleProductViewModel = new BundleProductViewModel()
+                {
+                    Id = bundleProduct.Id,
+                    BundleId = bundleProduct.BundleId,
+                    ProductId = bundleProduct.ProductId,
+                    Amount = bundleProduct.Amount,
+                    ProductName = bundleProduct.Product.Name
+                };
+                bundleViewModel.BundleProducts.Add(bundleProductViewModel);
+            }
 
-        //        SetChildrenRecursively(bundleProductViewModel, bundleProduct);
-        //        bundleProductViewModel.Children.Add(childBundleProductViewModel);
-        //    }
-        //}
+            foreach (BundleRelation childBundleRelation in bundle.ChildBundles)
+            {                
+                BundleViewModel childBundleViewModel = new BundleViewModel()
+                {
+                    Id = childBundleRelation.ChildBundleId,
+                    Amount = childBundleRelation.Amount,
+                    Description = childBundleRelation.ChildBundle.Description,
+                    Name = childBundleRelation.ChildBundle.Name                    
+                };
+                  
+                SetChildrenRecursively(childBundleRelation.ChildBundle, childBundleViewModel);
+                bundleViewModel.ChildBundles.Add(childBundleViewModel);
+            }
+        }
     }
 
     public class BundleProductViewModel
@@ -86,12 +98,5 @@ namespace ProductBundles.ViewModels.Home
         public int Amount { get; set; } = 0;
         public string ProductName { get; set; } = string.Empty;                
     }
-
-    public class ChildBundleViewModel
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public int Amount { get; set;} = 0;
-    }
+    
 }
