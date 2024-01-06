@@ -14,7 +14,8 @@ namespace ProductBundles.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,15 +37,38 @@ namespace ProductBundles.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BundleRelation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    ParentBundleId = table.Column<int>(type: "int", nullable: false),
+                    ChildBundleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BundleRelation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BundleRelation_Bundle_ChildBundleId",
+                        column: x => x.ChildBundleId,
+                        principalTable: "Bundle",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BundleRelation_Bundle_ParentBundleId",
+                        column: x => x.ParentBundleId,
+                        principalTable: "Bundle",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BundleProduct",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BundleId = table.Column<int>(type: "int", nullable: false),
-                    BundleProductId = table.Column<int>(type: "int", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ParentBundleId = table.Column<int>(type: "int", nullable: true),
                     Amount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -54,14 +78,12 @@ namespace ProductBundles.Migrations
                         name: "FK_BundleProduct_Bundle_BundleId",
                         column: x => x.BundleId,
                         principalTable: "Bundle",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BundleProduct_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -73,6 +95,16 @@ namespace ProductBundles.Migrations
                 name: "IX_BundleProduct_ProductId",
                 table: "BundleProduct",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BundleRelation_ChildBundleId",
+                table: "BundleRelation",
+                column: "ChildBundleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BundleRelation_ParentBundleId",
+                table: "BundleRelation",
+                column: "ParentBundleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -81,10 +113,13 @@ namespace ProductBundles.Migrations
                 name: "BundleProduct");
 
             migrationBuilder.DropTable(
-                name: "Bundle");
+                name: "BundleRelation");
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Bundle");
         }
     }
 }

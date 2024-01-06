@@ -24,21 +24,18 @@ namespace ProductBundles.ViewModels.Home
                     BundleProducts = new List<BundleProductViewModel>()
                 };
 
-                foreach(BundleProduct bundleProduct in bundle.BundleProducts)
+                foreach (BundleProduct bundleProduct in bundle.BundleProducts)
                 {
                     BundleProductViewModel bundleProductViewModel = new BundleProductViewModel()
                     {
                         Id = bundleProduct.Id,
                         BundleId = bundleProduct.BundleId,
-                        ParentBundleId = bundleProduct.ParentBundleId,
-                        BundleProductId = bundleProduct.BundleProductId,                        
                         ProductId = bundleProduct.ProductId,
                         Amount = bundleProduct.Amount,
-                        ProductName = bundleProduct.ProductId.HasValue ? bundleProduct.Product.Name : null,
-                        Children = new List<BundleProductViewModel>()
+                        ProductName = bundleProduct.Product.Name                        
                     };
 
-                    SetChildrenRecursively(bundleProductViewModel, bundleProduct);
+                    //SetChildrenRecursively(bundleProductViewModel, bundleProduct);
                     bundleViewModel.BundleProducts.Add(bundleProductViewModel);
                 }
 
@@ -48,37 +45,32 @@ namespace ProductBundles.ViewModels.Home
             return retVal;
         }
 
-        private static void SetChildrenRecursively(BundleProductViewModel bundleProductViewModel, BundleProduct bundleProduct)
-        {
-            foreach(BundleProduct childBundleProduct in bundleProduct.ChildBundleProducts)
-            {
-                BundleProductViewModel childBundleProductViewModel = new BundleProductViewModel()
-                {
-                    Id = childBundleProduct.Id,
-                    BundleId = childBundleProduct.BundleId,
-                    ParentBundleId = childBundleProduct.ParentBundleId,
-                    BundleProductId = childBundleProduct.BundleProductId,
-                    ProductId = childBundleProduct.ProductId,
-                    Amount = childBundleProduct.Amount,
-                    ProductName = childBundleProduct.ProductId.HasValue ? childBundleProduct.Product.Name : null,
-                    Children = new List<BundleProductViewModel>()
-                };
+        //private static void SetChildrenRecursively(BundleProductViewModel bundleProductViewModel, BundleProduct bundleProduct)
+        //{
+        //    foreach(BundleProduct childBundleProduct in bundleProduct.ChildBundleProducts)
+        //    {
+        //        BundleProductViewModel childBundleProductViewModel = new BundleProductViewModel()
+        //        {
+        //            Id = childBundleProduct.Id,
+        //            BundleId = childBundleProduct.BundleId,                    
+        //            ProductId = childBundleProduct.ProductId,
+        //            Amount = childBundleProduct.Amount,
+        //            ProductName = childBundleProduct.ProductId.HasValue ? childBundleProduct.Product.Name : null,
+        //            Children = new List<BundleProductViewModel>()
+        //        };
 
-                SetChildrenRecursively(bundleProductViewModel, bundleProduct);
-                bundleProductViewModel.Children.Add(childBundleProductViewModel);
-            }
-        }
+        //        SetChildrenRecursively(bundleProductViewModel, bundleProduct);
+        //        bundleProductViewModel.Children.Add(childBundleProductViewModel);
+        //    }
+        //}
     }
 
     public class BundleProductViewModel
     {
         public int Id { get; set; }
-        public int BundleId { get; set; }
-        public int? BundleProductId { get; set; }
-        public int? ProductId { get; set; }
-        public int? ParentBundleId { get; set; }
+        public int BundleId { get; set; }        
+        public int ProductId { get; set; }        
         public int Amount { get; set; } = 0;
-        public string? ProductName { get; set; } = string.Empty;
-        public List<BundleProductViewModel> Children { get; set; } = new List<BundleProductViewModel>();
+        public string ProductName { get; set; } = string.Empty;                
     }
 }

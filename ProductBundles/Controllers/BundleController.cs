@@ -28,11 +28,10 @@ namespace ProductBundles.Controllers
         {
             if(ModelState.IsValid)
             {
-                // save
-                // redirect to home
+                _bundleService.AddBundle(bundle);
+                return Json(new { success = true });
             }
-            
-            return View(bundle);
+            return Json(new { success = false });
         }
     }
 }
