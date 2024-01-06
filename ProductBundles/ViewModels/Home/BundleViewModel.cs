@@ -9,6 +9,7 @@ namespace ProductBundles.ViewModels.Home
         public int Id { get; set; } = 0;
         public string Name { get; set; } = "";
         public List<BundleProductViewModel> BundleProducts { get; set; } = new List<BundleProductViewModel>();
+        public List<ChildBundleViewModel> ChildBundles { get; set; } = new List<ChildBundleViewModel>();
 
 
         public static List<BundleViewModel> FromEntityList(List<Domain.Bundle> bundles)
@@ -37,6 +38,18 @@ namespace ProductBundles.ViewModels.Home
 
                     //SetChildrenRecursively(bundleProductViewModel, bundleProduct);
                     bundleViewModel.BundleProducts.Add(bundleProductViewModel);
+                }
+
+                foreach (BundleRelation childBundleRelation in bundle.ChildBundles)
+                {
+                    ChildBundleViewModel childBundleViewModel = new ChildBundleViewModel()
+                    {
+                        Id = childBundleRelation.ChildBundleId,
+                        Name = childBundleRelation.ChildBundle.Name,
+                        Description = childBundleRelation.ChildBundle.Description,
+                        Amount = childBundleRelation.Amount
+                    };
+                    bundleViewModel.ChildBundles.Add(childBundleViewModel);
                 }
 
                 retVal.Add(bundleViewModel);
@@ -72,5 +85,13 @@ namespace ProductBundles.ViewModels.Home
         public int ProductId { get; set; }        
         public int Amount { get; set; } = 0;
         public string ProductName { get; set; } = string.Empty;                
+    }
+
+    public class ChildBundleViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public int Amount { get; set;} = 0;
     }
 }

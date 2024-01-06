@@ -10,6 +10,7 @@ namespace ProductBundles.Infrastructure
 
         public DbSet<Bundle> Bundle { get; set; }
         public DbSet<BundleProduct> BundleProduct { get; set; }
+        public DbSet<BundleRelation> BundleRelation { get; set; }
         public DbSet<Product> Product { get; set; }
                 
         public ProductBundlesDbContext(IConfiguration configuration) : base()
@@ -26,6 +27,8 @@ namespace ProductBundles.Infrastructure
         {
             // [dbo].[Bundle]
             modelBuilder.Entity<Bundle>().HasKey(e => e.Id);
+
+            //modelBuilder.Entity<Bundle>().hasm
 
             // [dbo].[BundleProduct]
             modelBuilder.Entity<BundleProduct>().HasKey(e => e.Id);
@@ -47,7 +50,7 @@ namespace ProductBundles.Infrastructure
             
             modelBuilder.Entity<BundleRelation>()
                 .HasOne(br => br.ParentBundle)
-                .WithMany()
+                .WithMany(b => b.ChildBundles)
                 .HasForeignKey(br => br.ParentBundleId)
                 .OnDelete(DeleteBehavior.NoAction);
             

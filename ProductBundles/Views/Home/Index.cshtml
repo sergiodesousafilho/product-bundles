@@ -21,6 +21,14 @@
     </a>
 </div>
 
+@if(bundles == null || bundles.Count == 0)
+{
+    <div class="text-muted">
+        No bundles created yet
+    </div>
+}
+    
+
 <div id="jstree">
     @foreach (BundleViewModel bundle in bundles)
     {
@@ -37,6 +45,14 @@
                                 @bp.ProductName (@bp.Amount)
                             </li>
                         }
+
+                        @foreach (ChildBundleViewModel b in bundle.ChildBundles)
+                        {
+                            <li>
+                                @b.Name (@b.Amount)
+                            </li>
+                        }
+
                     </ul>
                 }
             </li>

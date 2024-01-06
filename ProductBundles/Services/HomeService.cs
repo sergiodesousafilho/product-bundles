@@ -14,7 +14,7 @@ namespace ProductBundles.Services
 
         public List<BundleViewModel> GetAllBundles()
         {            
-            var bundles = _dbContext.Bundle.ToList();
+            var bundles = _dbContext.Bundle.OrderBy(b => b.Name).ToList();
 
             var bundlesModel = BundleViewModel.FromEntityList(bundles);
 

@@ -17,7 +17,8 @@ namespace ProductBundles.Controllers
         [HttpGet]
         [Route("add")]
         public IActionResult Add()
-        {
+        {            
+            ViewBag.Bundles = _bundleService.GetAllBundles();
             ViewBag.Products = _bundleService.GetAllProducts();
             return View();
         }

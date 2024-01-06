@@ -65,7 +65,7 @@
                 </button>
             </div>
             
-            <div id="selected-products">
+            <div id="selected-products" class="text-muted">
                 No products selected
             </div>
         </div>
@@ -79,12 +79,12 @@
             <h5>Child bundles</h5>
 
             <div class="text-end">
-                <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddChildBundle">
                     Add child bundle
                 </button>
             </div>
 
-            <div id="selected-child-bundles">
+            <div id="selected-child-bundles" class="text-muted">
                 No child bundles selected
             </div>
         </div>
@@ -146,3 +146,42 @@
     </div>
 </div>
 
+
+<div class="modal" id="modalAddChildBundle" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add child bundle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <label>Bundle</label>
+                <div>
+                    <select class="form-control" id="drop-down-select-child-bundle">
+                        <option value="-1" selected>Select the bundle</option>
+                        @foreach (ProductBundles.ViewModels.Home.BundleViewModel bundle in ViewBag.Bundles)
+                        {
+                            <option value="@bundle.Id">@bundle.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <br />
+                <label>Amount</label>
+                <div>
+                    <input class="form-control" id="input-inform-child-bundle-amount" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-insert-child-bundle">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
