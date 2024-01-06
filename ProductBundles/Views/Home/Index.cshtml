@@ -72,7 +72,14 @@
     {
         <ul>
             <li>
-                <span>@bundle.Name</span>
+                <span>
+                    @bundle.Name
+
+                    @if(bundle.Amount > 0)
+                    {
+                        <span>(@bundle.Amount)</span>    
+                    }
+                </span>
 
                 @if (bundle.BundleProducts != null && bundle.BundleProducts.Count > 0)
                 {
@@ -87,21 +94,12 @@
                 }
 
                 @if (bundle.ChildBundles != null && bundle.ChildBundles.Count > 0)
-                {
-                    <ul>                                                                    
-                        @foreach (BundleViewModel b in bundle.ChildBundles)
+                {                    
+                    @foreach (BundleViewModel b in bundle.ChildBundles)
                         {
-                            <li>
-                                <span>@b.Name (@b.Amount)</span>
-
-                                @{
-                                        RenderBundle(b);
-                                }                                
-
-                            </li>
+                            RenderBundle(b);
                         }
-                    </ul>
-                }
+                    }
             </li>
         </ul>
     }
