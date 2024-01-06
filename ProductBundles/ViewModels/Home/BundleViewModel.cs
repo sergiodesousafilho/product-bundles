@@ -1,5 +1,6 @@
-﻿using ProductBundles.Domain;
+﻿
 using System.Collections.Generic;
+using ProductBundles.Domain;
 
 namespace ProductBundles.ViewModels.Home
 {
@@ -10,11 +11,11 @@ namespace ProductBundles.ViewModels.Home
         public List<BundleProductViewModel> BundleProducts { get; set; } = new List<BundleProductViewModel>();
 
 
-        public static List<BundleViewModel> FromEntityList(List<Bundle> bundles)
+        public static List<BundleViewModel> FromEntityList(List<Domain.Bundle> bundles)
         {
             List<BundleViewModel> retVal = new List<BundleViewModel>();
 
-            foreach (Bundle bundle in bundles)
+            foreach (Domain.Bundle bundle in bundles)
             { 
                 BundleViewModel bundleViewModel = new BundleViewModel() 
                 {

@@ -1,18 +1,25 @@
-﻿@using ProductBundles.ViewModels.Home
+﻿@using Microsoft.AspNetCore.Mvc.Routing;
+@using ProductBundles.ViewModels.Home
 @{
     Layout = "_Layout";    
     List<BundleViewModel> bundles = ViewBag.Bundles;
+    
 }
 
 @section head
 {    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 }
 
-
 <h1>Bundles</h1>
+
+<div class="top-buttons">
+    <a class="btn btn-primary" href="@Url.Action("add", "bundle")" ">
+        Add new bundle
+    </a>
+</div>
 
 <div id="jstree">
     @foreach (BundleViewModel bundle in bundles)

@@ -7,6 +7,7 @@ namespace ProductBundles.Controllers
     public class HomeController: Controller
     {
         private readonly HomeService _homeService;
+
         public HomeController(HomeService homeService)
         {
             _homeService = homeService;

@@ -1,0 +1,134 @@
+﻿@model ProductBundles.Domain.Bundle
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head
+{
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="~/js/bundle-add.js"></script>
+}
+
+<script>
+    const urlAddBundle = '@Url.Action("add", "bundle")';
+</script>
+
+<div class="loading d-none">
+    <div class="spinner-border text-primary">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div class="form-wrapper">
+
+    <h1>Add Bundle</h1>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="add" method="post" enctype="application/x-www-form-urlencoded">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Name</label>
+                    <input asp-for="Name" id="name" class="form-control" placeholder="Name for the new bundle" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <h5>Products</h5>
+            
+            <div class="text-end">
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddProduct">
+                    Add product
+                </button>
+            </div>
+            
+            <div id="selected-products">
+                No products selected
+            </div>
+        </div>
+    </div>
+
+    <br /> <br /> 
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <h5>Child bundles</h5>
+
+            <div class="text-end">
+                <button class="btn btn-sm btn-primary">
+                    Add child bundle
+                </button>
+            </div>
+
+            <div id="selected-child-bundles">
+                No child bundles selected
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <br /> <br />
+        <button id="btn-create-bundle" class="btn btn-primary">
+            Create
+        </button>
+    </div>
+
+
+    <div>
+        <br /> <br />
+        <a href="@Url.Action("index", "home")">
+            Back to Home
+        </a>
+    </div>
+</div>
+
+
+<div class="modal" id="modalAddProduct" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <label>Product</label>
+                <div>
+                    <select class="form-control">
+                        @foreach(ProductBundles.Domain.Product product in ViewBag.Products)
+                        {
+                            <option value="@product.Id">@product.Name</option>    
+                        }                    
+                    </select>
+                </div>
+
+                <br />
+                <label>Amount</label>
+                <div>
+                    <input class="form-control" />
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
