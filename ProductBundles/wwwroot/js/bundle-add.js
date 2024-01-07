@@ -6,6 +6,9 @@ $(document).ready(function () {
 });
 
 const onBtnCreateBundleClick = () => {
+
+    if (!validateFields()) return;
+
     const _name = $('#name').val();
     const _description = $('#description').val();
     const payload = {
@@ -30,11 +33,19 @@ const onBtnCreateBundleClick = () => {
             BundleAmount: parseInt($(element).attr('data-child-bundle-amount'))
         });
     });
-
-    console.log('payload', payload);
-
+        
     showLoading();
     $.post(urlAddBundle, payload, handleAddBundleResponse);
+}
+
+const validateFields = () => {    
+    const name = $('#name').val();
+    if (typeof name !== 'string' || name.trim() === '') {        
+        $('.validation-for-name').show();
+        return false;
+    }        
+    $('.validation-for-name').hide();
+    return true;    
 }
 
 const handleAddBundleResponse = (result) => {    
@@ -57,16 +68,16 @@ const hideLoading = () => {
     $('.loading').addClass('d-none');
 }
 
-const onBtnInsertProductClick = () => {       
-    // remove message 'no products selected' if necessary
-    if ($('.selected-product-item').length === 0) {        
-        $('#selected-products').empty();
-    }
+const onBtnInsertProductClick = () => {    
     // add selected product element
     const productId = $('#drop-down-select-product').val();
     const productName = $('#drop-down-select-product option:selected').text();
     const productAmount = $('#input-inform-product-amount').val();
     if (productId != '-1') {
+        // remove message 'no products selected' if necessary
+        if ($('.selected-product-item').length === 0) {
+            $('#selected-products').empty();
+        }
         const element = `
             <div class="selected-product-item" data-product-id="${productId}" data-product-amount="${productAmount}">
                 ${productName} (${productAmount})
@@ -75,18 +86,18 @@ const onBtnInsertProductClick = () => {
     }    
 }
 
-const onBtnInsertChildBundleClick = () => {
-    // remove message 'No child bundles selected' if necessary
-    if ($('.selected-child-bundle-item').length === 0) {
-        $('#selected-child-bundles').empty();
-    }
+const onBtnInsertChildBundleClick = () => {    
     // add child bundle element
     const bundleId = $('#drop-down-select-child-bundle').val();
     const bundleName = $('#drop-down-select-child-bundle option:selected').text();
     const childBundleAmount = $('#input-inform-child-bundle-amount').val();
     if (bundleId != '-1') {
-        const element = `
-            <div class="selected-child-bundle-item" data-child-bundle-id="${bundleId}" data-child-bundle-amount="${childBundleAmount}">
+        // remove message 'No child bundles selected' if necessary
+        if ($('.selected-child-bundle-item').length === 0) {
+            $('#selected-child-bundles').empty();
+        }
+        const element = 
+            `<div class="selected-child-bundle-item" data-child-bundle-id="${bundleId}" data-child-bundle-amount="${childBundleAmount}">
                 ${bundleName} (${childBundleAmount})
             </div>`;
         $('#selected-child-bundles').append(element);

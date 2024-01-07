@@ -34,16 +34,15 @@
                                 
                 <div class="form-group">
                     <label class="control-label">Name</label>
-                    <input id="name" class="form-control" placeholder="Name for the new bundle" />
-                    <span class="text-danger validation-for-name"></span>
+                    <input id="name" class="form-control" placeholder="Name for the new bundle" maxlength="100" />
+                    <span class="text-danger validation-for-name" style="display: none;">Inform a valid name</span>
                 </div>
                                 
                 <br />
 
                 <div class="form-group">
                     <label class="control-label">Description</label>
-                    <input id="description" class="form-control" placeholder="Description of the new bundle" />
-                    <span class="text-danger validation-for-description"></span>
+                    <input id="description" class="form-control" placeholder="Description of the new bundle" maxlength="300" />                    
                 </div>
 
             </form>
