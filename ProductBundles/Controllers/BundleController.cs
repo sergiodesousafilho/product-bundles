@@ -28,9 +28,9 @@ namespace ProductBundles.Controllers
         public IActionResult Add([FromForm]AddBundleViewModel bundle)
         {
             if(ModelState.IsValid)
-            {
-                _bundleService.AddBundle(bundle);
-                return Json(new { success = true });
+            {                
+                bool success = _bundleService.AddBundle(bundle);
+                return Json(new { success = success });
             }
             return Json(new { success = false });
         }

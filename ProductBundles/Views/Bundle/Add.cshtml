@@ -30,22 +30,20 @@
 
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="add" method="post" enctype="application/x-www-form-urlencoded">
-
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <form>
+                                
                 <div class="form-group">
-                    <label asp-for="Name" class="control-label">Name</label>
-                    <input asp-for="Name" id="name" class="form-control" placeholder="Name for the new bundle" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label class="control-label">Name</label>
+                    <input id="name" class="form-control" placeholder="Name for the new bundle" />
+                    <span class="text-danger validation-for-name"></span>
                 </div>
                                 
                 <br />
 
                 <div class="form-group">
-                    <label asp-for="Description" class="control-label">Description</label>
-                    <input asp-for="Description" id="description" class="form-control" placeholder="Description of the new bundle" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <label class="control-label">Description</label>
+                    <input id="description" class="form-control" placeholder="Description of the new bundle" />
+                    <span class="text-danger validation-for-description"></span>
                 </div>
 
             </form>
@@ -97,7 +95,6 @@
         </button>
     </div>
 
-
     <div>
         <br /> <br />
         <a href="@Url.Action("index", "home")">
@@ -130,7 +127,7 @@
                 <br />
                 <label>Amount</label>
                 <div>
-                    <input class="form-control" id="input-inform-product-amount" />
+                    <input class="form-control" id="input-inform-product-amount" type="number" value="1" />
                 </div>
                 
             </div>
@@ -145,7 +142,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal" id="modalAddChildBundle" tabindex="-1">
     <div class="modal-dialog">
@@ -170,7 +166,7 @@
                 <br />
                 <label>Amount</label>
                 <div>
-                    <input class="form-control" id="input-inform-child-bundle-amount" />
+                    <input class="form-control" id="input-inform-child-bundle-amount" type="number" value="1"/>
                 </div>
 
             </div>

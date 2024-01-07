@@ -2,6 +2,7 @@
 
 This project aims to demonstrate how to create a recursive structure that describes the components needed for assembling products.
 
+![Texto Alternativo](./screenshots/screenshot-product-bundles.jpg)
 
 ### How to run the project locally
 
