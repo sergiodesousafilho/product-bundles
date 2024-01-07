@@ -15,10 +15,10 @@ namespace ProductBundles.Controllers
 
         [HttpGet]
         public IActionResult Index()
-        {                        
-            var bundles = _homeService.GetAllBundles();
-
-            ViewBag.Bundles = bundles;
+        {   
+            ViewBag.Bundles = _homeService.GetAllBundles();
+            ViewBag.Products = _homeService.GetAllProducts();
+            ViewBag.PossibleBuilds = _homeService.GetPossibleBuilds();
 
             return View();
         }

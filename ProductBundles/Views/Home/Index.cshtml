@@ -4,6 +4,8 @@
 @{
     Layout = "_Layout";    
     List<BundleViewModel> bundles = ViewBag.Bundles;    
+    List<ProductBundles.Domain.Product> products = ViewBag.Products;
+    Dictionary<int, int> possibleBuilds = ViewBag.PossibleBuilds;
 }
 
 @section head
@@ -27,45 +29,58 @@
         No bundles created yet
     </div>
 }
-    
 
-<div id="jstree">
-
+<div id="bundlesTree">
     @foreach (BundleViewModel bundle in bundles)
     {
         RenderBundle(bundle);
-    }
-
-    @*@foreach (BundleViewModel bundle in bundles)
-    {
-        <ul>
-            <li>
-                <span>@bundle.Name</span>
-                                
-                @if(bundle.BundleProducts != null && bundle.BundleProducts.Count > 0)
-                {
-                    <ul>
-                        @foreach(BundleProductViewModel bp in bundle.BundleProducts)
-                        {
-                            <li>
-                                @bp.ProductName (@bp.Amount)
-                            </li>
-                        }
-
-                        @foreach (BundleViewModel b in bundle.ChildBundles)
-                        {
-                            <li>
-                                @b.Name (@b.Amount)
-                            </li>
-                        }
-
-                    </ul>
-                }
-            </li>
-        </ul>        
-    }*@
+    }    
 </div>
 
+<br />
+<br />
+<h1>Spare Parts</h1>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <td>Product name</td>
+            <td>Quantity in stock</td>
+        </tr>        
+    </thead>
+    <tbody>
+    @foreach (ProductBundles.Domain.Product product in products)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Amount</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<br />
+<br />
+<h1>Information</h1>
+<div> 
+    <br />How many items of each bundle would be possible to build with the pieces currently in stock:<br /> <br />
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <td>Bundle name</td>
+            <td>Possible quantity to build</td>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (BundleViewModel bundle in bundles)
+    {
+        <tr>
+            <td>@bundle.Name</td>
+            <td>@possibleBuilds[bundle.Id]</td>
+        </tr>
+    }
+    </tbody>
+</table>
 
 @functions {
     public void RenderBundle(BundleViewModel bundle)
@@ -106,20 +121,7 @@
 }
 
 <script>
-    $(function () {
-        
-        $('#jstree').jstree();
-        
-        
-        //$('#jstree').on("changed.jstree", function (e, data) {
-        //    console.log(data.selected);
-        //});
-        
-        // 8 interact with the tree - either way is OK
-        // $('button').on('click', function () {
-        //     $('#jstree').jstree(true).select_node('child_node_1');
-        //     $('#jstree').jstree('select_node', 'child_node_1');
-        //     $.jstree.reference('#jstree').select_node('child_node_1');
-        // });
+    $(() => {        
+        $('#bundlesTree').jstree();
     });
 </script>
