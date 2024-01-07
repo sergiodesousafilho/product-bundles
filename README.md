@@ -1,49 +1,50 @@
 # product-bundles
 
-Este projeto tem por objetivo realizar uma demonstração de como criar uma estrutura recursiva que descreve peças necessárias para montagem de produtos.
+This project aims to demonstrate how to create a recursive structure that describes the components needed for assembling products.
 
 
-### Como executar o projeto localmente
+### How to run the project locally
 
-- Configurar uma connection string com credenciais válidas para uma base SQL Server local no arquivo appsettings.Development.json que está na raíz do projeto.
-- Caso não tenha o cli do ef core instalado na máquina, navegar pelo terminar para a pasta do projeto e executar o comando abaixo.
+- Set up a connection string with valid credentials for a local SQL Server database in the appsettings.Development.json file located at the root of the project.
+- If the EF Core CLI is not installed on your machine, navigate through the terminal to the project folder and execute the following command:
     > `dotnet tool install --global dotnet-ef`
-- Para criar a base de dados ou atualizar, executar o comando abaixo.
+- To create or update the database, run the following command:
     > `dotnet ef database update`
 
 
-### Dados de exemplo
+### Example Data
 
-- Não criei tela de cadastro de produtos ainda. Então, para alimentar o projeto com produtos, deve-se cadastrar manualmente os produtos no banco de dados.
-  Também estou incluindo um script para inserir dados de exemplo, caso prefira. O arquivo insert-sample-data.sql está na pasta scripts na raíz do repositório.
-- A lógica utilizada na tela de cadastro de novos bundles foi permitir somente criar bundles contendo bundles filhos que já estejam cadastrados na base.
-  Então, para o exemplo da bicicleta, seria necessário cadastrar primeiro o bundle da roda da bicicleta para depois sim poder criar o bundle da bicicleta utilizando o bundle da roda.
+- I haven't created a product registration screen yet. To populate the project with products, you must manually register the products in the database.
+I am also including a script to insert sample data, in case you prefer. The insert-sample-data.sql file is located in the scripts folder at the root of the repository.
+- The logic used in the registration screen for new bundles allows only the creation of bundles containing child bundles that are already registered in the database.
+So, for the example of the bicycle, it would be necessary to first register the bundle of the bicycle wheel before being able to create the bundle of the bicycle using the wheel bundle.
 
 
-### Solução do problema
+### Challenge Solution
 
-- A solução para quantos bundles seria possível construir com os produtos cadastrados na base, está na parte de baixo da tela Home, sob o título "Information". 
-  Esta área exibe uma tabela com a quantidade máxima de bundles de cada tipo que seria possível construir com os produtos atualmente no estoque.
-- Esta resposta não inclui lógica para construir bundles raíz (P0) diferentes ao mesmo tempo. 
-  Então, caso existam bundles que utilizam os mesmos produtos de outros bundles, deve-se atentar que este resultado está exibindo o total possível de bundles a 
-  serem construídos caso todos os produtos do estoque fossem utilizados para aquele bundle raíz específico.
-- O diagrama solicitado está na pasta diagrams na raíz do repositório.
-- A coluna Amount da tabela Product, informa quantos itens de um produto existem no estoque.
-- A coluna Amount da tabela BundleProduct, informa quantos itens de um produto são necessários para a construção de um bundle.
-- A coluna Amount da tabela BundleRelation, informa quantos bundles filhos são necessários para a criação de um bundle pai.
+- The solution for determining how many bundles could be constructed with the products registered in the database is found at the bottom of the Home screen, under the title "Information."
+   This area displays a table with the maximum quantity of each type of bundle that could be built with the currently available products.
+- This answer does not include logic to build different root bundles (P0) simultaneously.
+   Therefore, if there are bundles that use the same products as other bundles, it should be noted that this result is displaying the total possible bundles to be built if all inventory products were used for that specific root bundle.
+- The requested diagram is in the diagrams folder at the root of the repository.
+- The Amount column in the Product table indicates how many items of a product are in stock.
+- The Amount column in the BundleProduct table indicates how many items of a product are needed to build a bundle.
+- The Amount column in the BundleRelation table indicates how many child bundles are needed to create a parent bundle.
 
-### Considerações
 
-Existem muito pontos de melhoria possíveis neste projeto, por exemplo:
+### Considerations
 
-- Utilizei lazy loading para acelerar o desenvolvimento mas não é uma boa prática para um projeto de produção.
-- Utilizei uma versão muito simplificada de DDD para organizar o projeto. Poderia incluir mais camadas, inversão de dependência com interfaces, etc.
-- As consultas em loop seriam certamente um problema em projetos reais e poderiam ser evitadas de várias formas diferentes. Por exemplo:
-  - Carregando todos os objetos para a memória primeiro com uma consulta de tudo ou com eager loading, caso a base seja pequena.
-  - Fazer consultas recursivas em SQL, também somente caso a quantidade de dados não seja tão grande.
-  - Incluir uma base noSql com dados pré-alimentados contendo toda a hierarquia dos bundles. Isso exigiria um projeto ETL para alimentar periodicamente a base noSql.
-  - Entre outras opções. Tudo isso dependeria de detalhes específicos de um projeto real.
+There are many possible improvements in this project, for example:
+
+- I used lazy loading to speed up development, but it is not a good practice for a production project.
+- I used a very simplified version of DDD to organize the project. It could include more layers, dependency inversion with interfaces, etc.
+- Queries in a loop would certainly be a problem in real projects and could be avoided in various ways, such as:
+  - Loading all objects into memory first with a query for everything or with eager loading if the database is small.
+  - Performing recursive SQL queries, also only if the amount of data is not too large.
+  - Including a NoSQL database with pre-populated data containing the entire hierarchy of bundles. This would require an ETL project to periodically feed the NoSQL database.
+  - Among other possible approaches. All of this would depend on specific details of a real project.
+
 
 ### Troubleshooting
 
-- Caso o google chrome bloqueie o acesso do navegador ao sistema devido ao certificado SSL, pode-se digitar no teclado "thisisunsafe" estando com o navegador em primeiro plano, para desligar este bloqueio de certificado.
+- If Google Chrome blocks the browser's access to the system due to the SSL certificate, you can type "thisisunsafe" on the keyboard with the browser in the foreground to disable this certificate block.
