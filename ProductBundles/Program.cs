@@ -42,5 +42,6 @@ void ConfigDependencyServices(IServiceCollection services)
 {
     services.AddTransient<HomeService, HomeService>();
     services.AddTransient<BundleService, BundleService>();
+    services.AddTransient<ProductService, ProductService>();    
     services.AddTransient<ProductBundlesDbContext, ProductBundlesDbContext>();
 }

@@ -15,8 +15,7 @@ This project aims to demonstrate how to create a recursive structure that descri
 
 ### Example Data
 
-- I haven't created a product registration screen yet. To populate the project with products, you must manually register the products in the database.
-I am also including a script to insert sample data, in case you prefer. The insert-sample-data.sql file is located in the scripts folder at the root of the repository.
+- I am including a script to insert sample data, in case you prefer. The insert-sample-data.sql file is located in the scripts folder at the root of the repository.
 - The logic used in the registration screen for new bundles allows only the creation of bundles containing child bundles that are already registered in the database.
 So, for the example of the bicycle, it would be necessary to first register the bundle of the bicycle wheel before being able to create the bundle of the bicycle using the wheel bundle.
 

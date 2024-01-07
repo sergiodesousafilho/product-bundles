@@ -1,0 +1,43 @@
+﻿@model ProductBundles.ViewModels.Product.AddProductViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Product</h1>
+
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="add" asp-controller="product" method="post" enctype="application/x-www-form-urlencoded">
+                        
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input name="Name" id="name" class="form-control" placeholder="Name for the new product" value="@(Model == null ? "" : Model.Name)" />                
+                @if (ViewData.ModelState.TryGetValue("Name", out var nameErrors) && nameErrors.Errors.Count > 0)
+                {
+                    <span class="text-danger">@nameErrors.Errors[0].ErrorMessage</span>
+                }
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <label class="control-label">Amount</label>
+                <input name="Amount" id="amount" class="form-control" type="number" value="@(Model == null ? "" : Model.Amount.ToString())" />                
+                @if (ViewData.ModelState.TryGetValue("Amount", out var amountErrors) && amountErrors.Errors.Count > 0)
+                {
+                    <span class="text-danger">Inform a valid amount</span>
+                }
+            </div>
+
+            <br />
+
+            <input type="submit" class="btn btn-primary" value="Create" />
+            
+        </form>
+    </div>
+</div>
+
+<br />
